@@ -1,23 +1,717 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
+
+    <!-- Schema.org JSON-LD (Product and FAQPage) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": "고액치료비암 보험 비교 서비스",
+      "description": "고액치료비암 진단금, 표적항암치료비 등 고비용 암 치료에 대비하는 맞춤형 보험 비교 및 견적 서비스입니다.",
+      "brand": {
+        "@type": "Brand",
+        "name": "암보험 비교센터"
+      },
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "KRW",
+        "price": "문의요망",
+        "url": "https://example.com/high-cost-cancer-insurance"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "고액치료비암이란 정확히 무엇을 의미하나요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "고액치료비암은 일반적으로 치료 과정에서 높은 비용이 발생하는 특정 암종을 말합니다. 보험 상품에 따라 정의가 다르지만, 주로 췌장암, 뇌암, 뼈암, 혈액암 등을 포함하며, 일반적인 암보다 진단금이 높게 책정되는 경우가 많습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "암보험 가입 시 고액치료비암 특약을 추가하는 것이 필수인가요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "일반 암보험만으로는 고액암의 치료비를 충당하기 어려울 수 있습니다. 특히 표적항암제와 같은 신기술 치료는 비용이 매우 높기 때문에, 고액치료비암 특약은 고가의 치료에 대한 경제적 부담을 덜어주는 중요한 선택지입니다. 개인의 재정 상황과 가족력 등을 고려하여 선택할 필요가 있습니다."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "2026년 이후 암보험 시장의 변화는 무엇인가요?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "2026년에는 의료 기술 발전과 함께 새로운 치료법이 등장하면서 보험 상품도 이에 맞춰 변화할 것으로 예상됩니다. 특히 면역항암치료와 표적항암치료 등 고가 치료법에 대한 보장이 강화되거나 세분화될 수 있으며, 보험료 산정 기준에도 영향을 미칠 수 있습니다."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        /* CSS Reset and Global Styles */
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #1a73e8;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #0c4a91;
+        }
+
+        /* Header and Navigation */
+        header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e0e6ec;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin: 0;
+            color: #1a73e8;
+        }
+
+        nav a {
+            font-weight: 500;
+            margin-left: 25px;
+            color: #555;
+            padding-bottom: 3px;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav a:hover {
+            color: #1a73e8;
+            border-bottom: 2px solid #1a73e8;
+        }
+
+        /* Hero Section (Main Heading and CTA) */
+        .hero {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 12px;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            color: #0d47a1;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #3f51b5;
+            margin-bottom: 30px;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        .cta-btn:hover {
+            background-color: #388E3C;
+        }
+
+        /* Main Content Sections */
+        .content-section {
+            background-color: #ffffff;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            color: #0d47a1;
+            border-left: 5px solid #1a73e8;
+            padding-left: 15px;
+            margin-bottom: 25px;
+        }
+
+        .content-section h3 {
+            font-size: 1.5rem;
+            color: #0d47a1;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #e0e6ec;
+            padding-bottom: 5px;
+        }
+
+        .content-section p {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .content-section ul, .content-section ol {
+            padding-left: 25px;
+            font-size: 1rem;
+        }
+
+        .content-section li {
+            margin-bottom: 8px;
+        }
+
+        /* Interactive Form Section */
+        #comparison-form {
+            background-color: #e0f2f1;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            margin: 30px auto;
+        }
+
+        #comparison-form h3 {
+            color: #004d40;
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        #comparison-form label {
+            display: block;
+            margin-top: 15px;
+            font-weight: 500;
+            color: #004d40;
+        }
+
+        #comparison-form input[type="text"],
+        #comparison-form input[type="number"],
+        #comparison-form input[type="email"],
+        #comparison-form select,
+        #comparison-form textarea {
+            width: calc(100% - 24px);
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #b2dfdb;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        #comparison-form button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin-top: 25px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #comparison-form button:hover {
+            background-color: #004d40;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f1f8e9;
+            color: #388e3c;
+            font-weight: 600;
+        }
+
+        td {
+            background-color: #ffffff;
+        }
+
+        /* Keyword List */
+        .keyword-list {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .keyword-list li {
+            background-color: #e0f2f1;
+            color: #004d40;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* FAQ Section */
+        .faq-item {
+            border: 1px solid #e0e6ec;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            background-color: #f9f9f9;
+            padding: 15px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #3f51b5;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question span {
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-content {
+            padding: 15px;
+            border-top: 1px solid #e0e6ec;
+            background-color: #ffffff;
+            display: none;
+        }
+
+        .faq-item.active .faq-question span {
+            transform: rotate(180deg);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #3f51b5;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        footer .container {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+        }
+
+        footer a {
+            color: white;
+            margin: 0 10px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav {
+                margin-top: 15px;
+            }
+
+            nav a {
+                margin: 0 10px;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .content-section {
+                padding: 25px;
+            }
+
+            .content-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .keyword-list {
+                justify-content: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1><a href="/">고액치료비암 보험 비교센터</a></h1>
+            <nav>
+                <a href="#definition">고액암이란?</a>
+                <a href="#cost-analysis">치료비 분석</a>
+                <a href="#comparison">상품 비교</a>
+                <a href="#faq">자주 묻는 질문</a>
+                <a href="#form-cta">무료 견적</a>
+            </nav>
+        </div>
+    </header>
+
     <main>
-      <h1>Home page</h1>
+        <section class="hero">
+            <div class="container">
+                <h2>고액치료비암, 더 이상 미룰 수 없는 대비</h2>
+                <p>2026년 최신 데이터 기반, 고액암 진단비 및 치료비 보장 보험 비교 분석</p>
+                <a href="#form-cta" class="cta-btn">맞춤형 보험료 견적 1:1 상담 신청</a>
+            </div>
+        </section>
+
+        <section class="content-section" id="definition">
+            <div class="container">
+                <h2>1. 고액치료비암이란 무엇인가요? - 정의와 중요성</h2>
+                <p>‘고액치료비암’은 일반적인 암 치료에 비해 훨씬 더 많은 비용을 필요로 하는 특정 암을 지칭합니다. 암 진단 후 치료 과정에서 수술, 항암화학요법, 방사선치료뿐만 아니라 최근 급여 적용이 확대되고 있는 고가 표적항암제, 면역항암제, 그리고 신의료기술이 포함된 치료법을 적용받을 때 막대한 경제적 부담이 발생합니다.</p>
+                <p>대부분의 보험사는 이러한 고액치료비암을 일반암과 구분하여 보장하고 있습니다. 고액암으로 분류되는 주요 암종으로는 췌장암, 뇌암(중추신경계암), 뼈암, 림프암, 백혈병 등이 있으며, 이는 보험사별로 다소 차이가 있을 수 있습니다. 따라서 암보험 가입 시, '고액치료비암' 정의에 어떤 암이 포함되는지 확인하는 것이 중요합니다.</p>
+
+                <h3>고액암이 일반암과 다른 점 (차이점)</h3>
+                <p>고액암 특약의 핵심은 '보장 금액의 차이'입니다. 일반암 진단비가 3천만원이라면, 고액암 진단비는 1억 원 이상으로 책정되는 경우가 많습니다. 이는 고액암이 일반암에 비해 진단 후 생존율이 낮거나 치료 난이도가 높아 집중적인 치료가 필요하기 때문입니다. 특히 2026년 이후에는 개인 맞춤형 치료법이 발전하면서 치료비가 더욱 상승할 것으로 예측되어, 고액암에 대한 대비는 선택이 아닌 필수가 되고 있습니다.</p>
+                <ul>
+                    <li><strong>보장 금액:</strong> 일반암 진단비 대비 2~5배 높은 진단비 지급.</li>
+                    <li><strong>치료 난이도:</strong> 진단 후 치료가 어렵고, 생존율이 상대적으로 낮아 고강도 치료 필요.</li>
+                    <li><strong>치료 비용:</strong> 표적항암제 등 고가 치료법 사용 빈도가 높아 비용 부담이 큼.</li>
+                </ul>
+
+                <h3>함께 많이 찾는 키워드</h3>
+                <ul class="keyword-list">
+                    <li>#고액치료비암 진단금</li>
+                    <li>#암보험 고액암 보장</li>
+                    <li>#암보험 종류</li>
+                    <li>#고액암 진단비 순위</li>
+                    <li>#표적항암치료비</li>
+                    <li>#면역항암치료비</li>
+                    <li>#2026 암보험 동향</li>
+                    <li>#암보험 가입 요령</li>
+                    <li>#고액암 보험금 지급 기준</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-section" id="cost-analysis">
+            <div class="container">
+                <h2>2. 암 치료비 평균 및 예상 금액 분석 - 2026년 전망</h2>
+                <p>보건복지부 및 국립암센터의 자료에 따르면, 암 치료에 드는 총 비용은 진단 후 5년간 평균 수천만원에 달합니다. 하지만 이는 평균적인 수치이며, 고액치료비암의 경우 그 비용이 훨씬 더 높게 나타납니다. 특히 최근 고가 치료법의 적용이 늘어나면서 암 치료비의 개인별 편차가 심화되고 있습니다.</p>
+
+                <h3>고액암 치료비용 상세 분석표 (예상)</h3>
+                <p>다음 표는 일반적인 암과 고액치료비암으로 분류되는 특정 암종의 치료비용(2026년 기준 예상)을 비교한 것입니다. (데이터는 예시이며 실제 비용은 상황에 따라 달라질 수 있습니다.)</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>암 종류</th>
+                            <th>일반 암 진단비 (평균)</th>
+                            <th>고액치료비암 진단비 (평균)</th>
+                            <th>주요 치료 방법 및 특징</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>위암/대장암 (일반암)</td>
+                            <td>3,000만원 ~ 5,000만원</td>
+                            <td>해당 없음</td>
+                            <td>수술, 항암화학요법. 상대적으로 치료 프로토콜이 정립되어 있음.</td>
+                        </tr>
+                        <tr>
+                            <td>췌장암 (고액암)</td>
+                            <td>3,000만원 ~ 5,000만원</td>
+                            <td>1억원 ~ 1억 5,000만원</td>
+                            <td>난이도 높은 수술, 고가 항암제 병용 치료. 예후가 좋지 않아 집중 치료 필요.</td>
+                        </tr>
+                        <tr>
+                            <td>뇌암 (고액암)</td>
+                            <td>3,000만원 ~ 5,000만원</td>
+                            <td>1억원 ~ 2억원</td>
+                            <td>수술 위험성 높음, 방사선 치료 및 표적치료 병행. 치료비용 편차가 큼.</td>
+                        </tr>
+                        <tr>
+                            <td>백혈병 (고액암)</td>
+                            <td>3,000만원 ~ 5,000만원</td>
+                            <td>1억 5,000만원 ~ 3억원</td>
+                            <td>골수 이식, 면역항암치료. 장기간 입원 및 고가 약제 투여가 필수적.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>고액치료비암 보험료 절약 팁 - 저렴한 가입 요령</h3>
+                <p>고액치료비암 특약을 포함하면 보험료가 올라갈 수 있습니다. 하지만 몇 가지 방법을 통해 보험료를 절약할 수 있습니다.</p>
+                <ol>
+                    <li><strong>갱신형 vs 비갱신형 비교:</strong> 갱신형은 초기 보험료가 저렴하지만 나이가 들수록 보험료가 상승합니다. 비갱신형은 초기 보험료는 높지만 갱신 없이 납입 기간 동안 동일한 보험료를 유지하여 장기적으로 저렴한 경우가 많습니다. 본인의 예상 연령과 재정 계획에 맞춰 장단점을 비교해야 합니다.</li>
+                    <li><strong>필요한 특약만 선택:</strong> 고액치료비암 특약 외에도 다양한 부가 특약들이 있습니다. 불필요한 특약을 제외하고 핵심 보장(진단금, 항암치료비) 위주로 구성하면 보험료를 크게 낮출 수 있습니다.</li>
+                    <li><strong>보험사별 비교 견적:</strong> 보험사마다 고액암의 정의나 보험료 산정 기준이 다릅니다. 여러 보험사의 상품을 비교 견적하여 내게 맞는 가장 저렴한곳을 찾아야 합니다.</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="content-section" id="comparison">
+            <div class="container">
+                <h2>3. 암보험 비교 및 순위 - 내돈내산 후기와 추천</h2>
+                <p>현재 시중에 나와 있는 암보험 상품은 매우 다양합니다. 고액치료비암 보장을 특화한 상품부터 일반암 진단비를 강화한 상품까지, 개인의 상황에 맞는 선택이 중요합니다.</p>
+
+                <h3>암보험 상품 선택 시 고려사항: 장단점 비교</h3>
+                <ul>
+                    <li><strong>보장 범위:</strong> 고액암 진단비 외에 일반암 보장 범위(유사암, 소액암 포함 여부)를 확인합니다.</li>
+                    <li><strong>갱신 여부:</strong> 비갱신형이 장기적으로 유리할 수 있지만, 초기 비용 부담이 크다는 단점이 있습니다.</li>
+                    <li><strong>보장 기간:</strong> 100세 만기 또는 종신 보장 등, 보장 기간을 확인하여 노후까지 대비할 수 있는지 고려해야 합니다.</li>
+                    <li><strong>면책 기간/감액 기간:</strong> 보험 가입 후 일정 기간(면책 기간)이 지나야 보장이 시작되며, 그 이후에도 일정 기간(감액 기간) 동안은 보험금의 일부만 지급되는 경우가 있습니다.</li>
+                </ul>
+
+                <h3>암보험 추천 순위 및 비교 분석</h3>
+                <p>2026년 보험 시장 동향을 바탕으로 한 전문가 추천 상품을 비교 분석합니다. (순위는 고정된 것이 아니며, 개인별 조건에 따라 변동될 수 있습니다.)</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>상품 특징</th>
+                            <th>A사 상품 (고액암 특화)</th>
+                            <th>B사 상품 (종합 보장형)</th>
+                            <th>C사 상품 (가성비 중심)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>주요 보장</td>
+                            <td>고액암 진단비 집중(최대 2억)</td>
+                            <td>일반암 및 고액암 통합 보장</td>
+                            <td>저렴한 보험료, 기본 보장 중심</td>
+                        </tr>
+                        <tr>
+                            <td>추천 대상</td>
+                            <td>고액암 가족력 보유자, 고가 치료에 집중 대비 원하는 경우</td>
+                            <td>균형 잡힌 보장 원하는 경우</td>
+                            <td>초기 보험료 부담을 줄이고자 하는 경우</td>
+                        </tr>
+                        <tr>
+                            <td>장점</td>
+                            <td>높은 고액암 진단비, 갱신 없는 비갱신형 설계 가능</td>
+                            <td>넓은 보장 범위, 다양한 특약 조합 가능</td>
+                            <td>가장 저렴한 보험료, 실속 보장 구성 용이</td>
+                        </tr>
+                        <tr>
+                            <td>단점</td>
+                            <td>상대적으로 높은 초기 보험료</td>
+                            <td>일부 특약은 갱신형으로 운영될 수 있음</td>
+                            <td>고액암 진단비가 상대적으로 낮을 수 있음</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>내돈내산 후기:</strong> 실제로 암보험에 가입한 소비자들의 후기를 분석해보면, 대부분의 가입자가 '갱신형 vs 비갱신형' 선택에 가장 많은 고민을 하며, 고액암 특약의 중요성을 간과했다가 뒤늦게 후회하는 경우가 많습니다. 특히 40대 이후에는 고액암 발생률이 높아지므로, 사전에 꼼꼼한 비교가 필요합니다.</p>
+            </div>
+        </section>
+
+        <section class="content-section" id="future-outlook">
+            <div class="container">
+                <h2>4. 2026년 이후 고액치료비암 보험 시장 전망</h2>
+                <p>2026년에는 의료기술의 발달로 '표적항암제'나 '면역항암제'와 같은 신기술 치료법이 더욱 보편화될 것으로 예상됩니다. 이 치료법들은 기존 항암치료보다 효과는 좋지만, 비용이 매우 높아 고액치료비암 보장 상품의 중요성이 더욱 강조될 것입니다.</p>
+                <p>보험사들은 이러한 변화에 맞춰 보장 범위를 확대하고 있습니다. 단순히 '고액암 진단비'를 지급하는 것 외에, '특정 항암치료비'를 별도 특약으로 분리하여 판매하는 경향이 강화되고 있습니다. 가입자 입장에서는 어떤 특약이 자신에게 유리한지 전문가의 도움을 받아야 합니다.</p>
+                <p>또한, 정부의 건강보험 보장성 강화 정책(문재인 케어 등)에 따라 일부 치료법은 급여가 확대될 수 있지만, 여전히 비급여 항목이 많고 신기술 치료법은 급여 적용에 시간이 걸립니다. 따라서 고액치료비암에 대한 사적 대비는 여전히 중요합니다.</p>
+            </div>
+        </section>
+
+        <section class="content-section" id="related-keywords">
+            <div class="container">
+                <h2>연관 검색어 및 추가 키워드</h2>
+                <ul class="keyword-list">
+                    <li>#암보험 가입 연령대별 추천</li>
+                    <li>#암보험 갱신형 비갱신형 장단점</li>
+                    <li>#암보험료 예상 금액</li>
+                    <li>#고액암 진단비 지급 기준</li>
+                    <li>#고액암 가입 순위</li>
+                    <li>#암보험 저렴한곳 찾기</li>
+                    <li>#암보험 비교견적 사이트 후기</li>
+                    <li>#표적항암치료비 보장 범위</li>
+                    <li>#면역항암치료 특약</li>
+                    <li>#고액치료비암 진단금 차이점</li>
+                    <li>#내돈내산 암보험 후기</li>
+                    <li>#암보험 가입 팁</li>
+                    <li>#고액암 보장액수</li>
+                    <li>#암보험 설계사 추천</li>
+                    <li>#암보험 가입 노하우</li>
+                    <li>#암보험 싼곳</li>
+                    <li>#고액치료비암 보험료 절약</li>
+                    <li>#유방암 고액암 분류</li>
+                    <li>#대장암 고액암 분류</li>
+                    <li>#암보험 가입 조건</li>
+                    <li>#암보험 비갱신형 가격</li>
+                    <li>#암보험 갱신형 가격</li>
+                    <li>#암보험 가입 추천</li>
+                    <li>#암보험 보장 기간</li>
+                    <li>#고액암 특약 가입 방법</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-section" id="form-cta">
+            <div class="container">
+                <h2>고액치료비암 맞춤 견적 신청</h2>
+                <p style="text-align: center; font-size: 1.1rem; color: #555;">간단한 정보 입력으로 여러 보험사의 고액암 특약 상품을 비교하고, 나에게 가장 적합한 견적을 무료로 받아보세요.</p>
+                <form id="comparison-form" action="#" method="post">
+                    <h3>맞춤 설계 무료 상담 신청서</h3>
+                    <label for="name">이름</label>
+                    <input type="text" id="name" name="name" placeholder="이름을 입력하세요" required>
+
+                    <label for="phone">연락처</label>
+                    <input type="tel" id="phone" name="phone" placeholder="휴대폰 번호를 입력하세요" required>
+
+                    <label for="birthdate">생년월일</label>
+                    <input type="number" id="birthdate" name="birthdate" placeholder="예: 19901010" required>
+
+                    <label for="gender">성별</label>
+                    <select id="gender" name="gender" required>
+                        <option value="">-- 선택 --</option>
+                        <option value="male">남성</option>
+                        <option value="female">여성</option>
+                    </select>
+
+                    <label for="insuranceType">원하는 보장 유형</label>
+                    <select id="insuranceType" name="insuranceType">
+                        <option value="all">고액암 + 일반암 종합 보장</option>
+                        <option value="highcost_only">고액암 진단비 집중형</option>
+                        <option value="custom">맞춤형 상담 요청</option>
+                    </select>
+
+                    <label for="note">문의사항 및 추가 요청사항</label>
+                    <textarea id="note" name="note" rows="3" placeholder="예: 갱신형/비갱신형 추천, 40대 여성 암보험 추천"></textarea>
+
+                    <button type="submit">무료 견적 요청하기</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="content-section" id="faq">
+            <div class="container">
+                <h2>자주 묻는 질문 (FAQ)</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q1. 고액치료비암 진단금은 언제 지급되나요?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-content">
+                        <p>A. 보험 가입 후 면책 기간(90일)이 지난 이후, 고액암으로 확정 진단 시 지급됩니다. 다만, 상품에 따라 감액 기간(1년 또는 2년)이 적용될 수 있어, 이 기간 내 진단 시에는 보험금의 50%만 지급될 수 있으니 약관을 반드시 확인해야 합니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q2. 일반 암보험 가입자도 고액암 특약만 추가할 수 있나요?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-content">
+                        <p>A. 네, 기존 암보험에 가입되어 있더라도 부족한 보장(고액암 진단비 등)을 보완하기 위해 별도의 특약이나 추가 상품 가입이 가능합니다. 다만, 가입 가능 여부는 기존 보험의 조건이나 가입 시기에 따라 다를 수 있으므로 전문가와 상담하는 것이 좋습니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q3. 고액암으로 분류되는 암의 종류가 보험사마다 다른가요?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-content">
+                        <p>A. 그렇습니다. '고액치료비암'의 정의는 보험사별로 다를 수 있습니다. 일반적으로 췌장암, 뇌암, 뼈암 등이 포함되지만, 특정 보험사는 유방암, 전립선암 등 특정 암을 고액암으로 분류하기도 합니다. 가입하려는 상품의 약관을 통해 정확한 고액암 분류 기준을 확인해야 합니다.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Q4. 고액치료비암 보험료는 나이에 따라 얼마나 차이가 나나요?</span>
+                        <span>+</span>
+                    </div>
+                    <div class="faq-content">
+                        <p>A. 암보험은 나이가 많아질수록 보험료가 급격히 상승합니다. 특히 40대 이후에는 발병률 증가로 인해 보험료 부담이 커지므로, 비교적 젊을 때 가입하는 것이 장기적으로 유리합니다. 또한 흡연 여부, 병력에 따라서도 보험료가 달라집니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <h2>5. 신뢰할 수 있는 외부 자료 및 참고 링크</h2>
+                <ul>
+                    <li><a href="https://www.cancer.go.kr/lay1/S1T64C138/contents_view.do?contId=6633" target="_blank" rel="noopener">국립암센터 - 암 치료비 지원 및 통계 자료</a></li>
+                    <li><a href="https://www.health.go.kr/health/Main.do" target="_blank" rel="noopener">보건복지부 - 보건의료정책 및 통계</a></li>
+                    <li><a href="https://www.law.go.kr/lsInfoP.do?lsiSeq=183656&efYd=20160804#0000" target="_blank" rel="noopener">「암관리법」 - 암환자 의료비 지원 관련 법률</a></li>
+                    <li><a href="https://ko.wikipedia.org/wiki/%EC%95%94%EB%B3%B4%ED%97%98" target="_blank" rel="noopener">암보험 - 위키백과</a></li>
+                    <li><a href="https://www.fss.or.kr/fss/main/index.do" target="_blank" rel="noopener">금융감독원 - 금융 상품 비교 공시</a></li>
+                </ul>
+                <p>위 자료들은 암 치료비, 보험 관련 법률 및 통계에 대한 신뢰성 있는 정보 출처입니다. 보험 상품 선택 전 참고하시기 바랍니다.</p>
+            </div>
+        </section>
+
     </main>
-  </body>
-</html>
+
+    <footer>
+        <div class="container">
+            <p><strong>고액치료비암 보험 비교센터</strong> | &copy; 2026 All Rights Reserved.</p>
+            <p>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">이용약관</a>
+                <a href="#">고객센터</a>
+            </p>
+            <p>본 사이트는 보험 상품 비교 정보를 제공하며, 실제 계약은 개인이 선택한 보험사와 직접 체결됩니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ 토글 기능
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', event => {
+                const parent = item.closest('.faq-item');
+                parent.classList.toggle('active');
+                const content = parent.querySelector('.faq-content');
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        });
+    </script>
+
+
+  
